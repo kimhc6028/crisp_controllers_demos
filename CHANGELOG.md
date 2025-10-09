@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.1](https://github.com/utiasDSL/crisp_controllers_demos/compare/v1.2.0...v1.2.1) (2025-09-11)
+
+
+### Bug Fixes
+
+* wrong crisp_controllers version in dockerfile ([b438adb](https://github.com/utiasDSL/crisp_controllers_demos/commit/b438adb991d2231d268b6088178f072ae0783fc9))
+
+## [1.2.0](https://github.com/utiasDSL/crisp_controllers_demos/compare/v1.1.0...v1.2.0) (2025-09-08)
+
+
+### Features
+
+* Added twist broadcasting to demos ([#7](https://github.com/utiasDSL/crisp_controllers_demos/issues/7)) ([41b68a9](https://github.com/utiasDSL/crisp_controllers_demos/commit/41b68a9201c2aa7694f46bb691dd505143b38724))
+
 ## [1.1.0](https://github.com/utiasDSL/crisp_controllers_demos/compare/v1.0.1...v1.1.0) (2025-08-19)
 
 
