@@ -40,6 +40,7 @@ def robot_description_dependent_nodes_spawner(
     load_gripper,
     arm_prefix,
     start_robot_state_publisher,
+    use_rviz,
 ):
     robot_ip_str = context.perform_substitution(robot_ip)
     arm_id_str = context.perform_substitution(arm_id)
@@ -47,6 +48,16 @@ def robot_description_dependent_nodes_spawner(
     use_fake_hardware_str = context.perform_substitution(use_fake_hardware)
     fake_sensor_commands_str = context.perform_substitution(fake_sensor_commands)
     load_gripper_str = context.perform_substitution(load_gripper)
+    use_rviz_str = context.perform_substitution(use_rviz)
+    start_robot_state_publisher_str = context.perform_substitution(start_robot_state_publisher)
+    print('robot_ip:',robot_ip_str)
+    print('arm_id:',arm_id_str)
+    print('amr_prefix:',arm_prefix_str)
+    print('use_fake_hardware:',use_fake_hardware_str)
+    print('fake_sensor_commands:',fake_sensor_commands_str)
+    print('load_gripper:',load_gripper_str)
+    print('use_rviz:',use_rviz_str)
+    print('start_robot_state_publisher:',start_robot_state_publisher_str)
 
     franka_xacro_filepath = os.path.join(
         get_package_share_directory("crisp_controllers_robot_demos"),
@@ -82,7 +93,6 @@ def robot_description_dependent_nodes_spawner(
             else "controllers.yaml",
         ]
     )
-
     return [
         Node(
             package="robot_state_publisher",
@@ -144,6 +154,7 @@ def generate_launch_description():
             load_gripper,
             arm_prefix,
             start_robot_state_publisher,
+            use_rviz,
         ],
     )
 
@@ -214,21 +225,28 @@ def generate_launch_description():
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=["cartesian_impedance_controller", "--inactive"],
+                arguments=["cartesian_impedance_controller"],
                 output="screen",
             ),
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=["joint_impedance_controller", "--inactive"],
+                arguments=["cartesian_impedance_stiff_controller", "--inactive"],
                 output="screen",
             ),
-            Node(
-                package="controller_manager",
-                executable="spawner",
-                arguments=["joint_trajectory_controller"],
-                output="screen",
-            ),
+
+            #Node(
+            #    package="controller_manager",
+            #    executable="spawner",
+            #    arguments=["joint_impedance_controller", "--inactive"],
+            #    output="screen",
+            #),
+            #Node(
+            #    package="controller_manager",
+            #    executable="spawner",
+            #    arguments=["joint_trajectory_controller", "--inactive"],
+            #    output="screen",
+            #),
             Node(
                 package="controller_manager",
                 executable="spawner",
@@ -245,6 +263,12 @@ def generate_launch_description():
                 package="controller_manager",
                 executable="spawner",
                 arguments=["external_torques_broadcaster"],
+                output="screen",
+            ),
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                arguments=["external_wrench_broadcaster"],
                 output="screen",
             ),
             Node(
@@ -292,5 +316,4 @@ def generate_launch_description():
             ),
         ]
     )
-
     return launch_description

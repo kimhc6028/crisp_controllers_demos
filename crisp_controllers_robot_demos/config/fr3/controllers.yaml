@@ -21,8 +21,23 @@
       cartesian_impedance_controller:
         type: crisp_controllers/CartesianController
 
+      cartesian_impedance_stiff_controller:
+        type: crisp_controllers/CartesianController
+
       joint_impedance_controller:
         type: crisp_controllers/CartesianController
+
+      torque_feedback_controller:
+        type: crisp_controllers/TorqueFeedbackController
+      
+      # external_torques_broadcaster:
+      #   type: franka_force_feedback_controllers/ExternalTorquesBroadcaster
+
+      external_torques_broadcaster:
+        type: franka_broadcasters/ExternalTorquesBroadcaster
+
+      external_wrench_broadcaster:
+        type: franka_broadcasters/ExternalWrenchBroadcaster
 
   joint_trajectory_controller:
     ros__parameters:
@@ -155,6 +170,60 @@
       limit_torques: true
 
 
+  cartesian_impedance_stiff_controller:
+    ros__parameters:
+      joints:
+        - fr3_joint1
+        - fr3_joint2
+        - fr3_joint3
+        - fr3_joint4
+        - fr3_joint5
+        - fr3_joint6
+        - fr3_joint7
+
+      end_effector_frame: fr3_hand_tcp
+      base_frame: base
+
+      filter:
+        q: 0.5
+        dq: 0.5
+        output_torque: 0.5
+
+      task:
+        k_pos_x: 1200.0
+        k_pos_y: 1200.0
+        k_pos_z: 1200.0
+        d_pos_x: 40.0
+        d_pos_y: 40.0
+        d_pos_z: 40.0
+        k_rot_x: 90.0
+        k_rot_y: 90.0
+        k_rot_z: 90.0
+        d_rot_x: 10.0
+        d_rot_y: 10.0
+        d_rot_z: 10.0
+
+      error_clip:
+        x: 0.05
+        y: 0.05
+        z: 0.05
+        rx: 0.1
+        ry: 0.1
+        rz: 0.1
+
+      max_delta_tau: 0.5 # max allowed change in torque per joint per control loop
+
+      nullspace: 
+        stiffness: 2.0
+
+      # log:
+      #   enabled: true
+      #   timing: true
+
+      use_friction: false
+      use_coriolis_compensation: true
+      use_local_jacobian: true
+
   cartesian_impedance_controller:
     ros__parameters:
       joints:
@@ -178,9 +247,25 @@
         k_pos_x: 400.0
         k_pos_y: 400.0
         k_pos_z: 400.0
+        d_pos_x: 40.0
+        d_pos_y: 40.0
+        d_pos_z: 40.0
         k_rot_x: 30.0
         k_rot_y: 30.0
         k_rot_z: 30.0
+        d_rot_x: 10.0
+        d_rot_y: 10.0
+        d_rot_z: 10.0
+
+      error_clip:
+        x: 0.1
+        y: 0.1
+        z: 0.1
+        rx: 0.5
+        ry: 0.5
+        rz: 0.5
+
+      max_delta_tau: 0.5 # max allowed change in torque per joint per control loop
 
       nullspace: 
         stiffness: 2.0
@@ -212,3 +297,24 @@
       joint_source_topic: target_joint
       torque_threshold: 0.1
 
+  external_torques_broadcaster:
+    ros__parameters:
+      joints:
+        - fr3_joint1
+        - fr3_joint2
+        - fr3_joint3
+        - fr3_joint4
+        - fr3_joint5
+        - fr3_joint6
+        - fr3_joint7
+
+  external_wrench_broadcaster:
+    ros__parameters:
+      joints:
+        - fr3_joint1
+        - fr3_joint2
+        - fr3_joint3
+        - fr3_joint4
+        - fr3_joint5
+        - fr3_joint6
+        - fr3_joint7
