@@ -156,16 +156,28 @@ services:
       ros2 daemon stop && ros2 daemon start &&
       ros2 run rmw_zenoh_cpp rmw_zenohd"
 
-
   launch_franka:
     <<: *franka-overlay
+    network_mode: "host"
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-42}
+      - RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp}
+      - ROS_LOCALHOST_ONLY=0
+      - CYCLONEDDS_URI=${CYCLONEDDS_URI:-file:///cyclonedds.xml}
+      - ROBOT_IP
+      - FRANKA_FAKE_HARDWARE
+    volumes:
+      - /etc/cyclonedds.xml:/cyclonedds.xml:ro
     command: >
       bash -lc "source /opt/ros/humble/setup.bash &&
       source install/setup.bash &&
-      export ROS_NETWORK_INTERFACE=${ROS_NETWORK_INTERFACE:-lo} &&
-      RMW=${RMW:-} source src/crisp_controllers_demos/scripts/setup_middleware.sh &&
+      source src/crisp_controllers_demos/scripts/setup_middleware.sh &&
+      export RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp} &&
       ros2 launch crisp_controllers_robot_demos franka.launch.py
-      arm_id:=fr3 use_fake_hardware:=${FRANKA_FAKE_HARDWARE:-false} robot_ip:=${ROBOT_IP:-172.16.0.2} use_rviz:=True"
+      arm_id:=fr3
+      use_fake_hardware:=${FRANKA_FAKE_HARDWARE:-false}
+      robot_ip:=${ROBOT_IP:-172.16.0.2}
+      use_rviz:=False"
 
   launch_dual_franka:
     <<: *franka-overlay

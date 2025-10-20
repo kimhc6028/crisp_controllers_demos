@@ -129,45 +129,51 @@ COPY . src/crisp_controllers_demos
 RUN git clone  --branch v${CRISP_CONTROLLERS_VERSION} --depth 1 https://github.com/utiasDSL/crisp_controllers.git src/crisp_controllers
 RUN git clone https://github.com/danielsanjosepro/franka_broadcasters.git src/franka_broadcasters
 
+# RUN source /opt/ros/$ROS_DISTRO/setup.bash \
+#     && source /home/ros/ros2_ws/install/setup.bash \
+#     && sudo apt update \
+#     && rosdep update \
+#     && rosdep install -q --from-paths src --ignore-src -y \ 
+#     && colcon build --symlink-install \
+#         --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --packages-select crisp_controllers crisp_mujoco_sim crisp_controllers_robot_demos franka_force_feedback_controllers
 RUN source /opt/ros/$ROS_DISTRO/setup.bash \
     && source /home/ros/ros2_ws/install/setup.bash \
     && sudo apt update \
     && rosdep update \
-    && rosdep install -q --from-paths src --ignore-src -y \ 
+    && rosdep install -q --from-paths src --ignore-src -y \
     && colcon build --symlink-install \
-        --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --packages-select crisp_controllers crisp_mujoco_sim crisp_controllers_robot_demos franka_force_feedback_controllers
+         --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+         --packages-select crisp_controllers crisp_mujoco_sim crisp_controllers_robot_demos franka_broadcasters
+
+#FROM kinova AS kinova-overlay
+
+#ARG CRISP_CONTROLLERS_VERSION=1.1.0
+
+#COPY . src/crisp_controllers_demos
+
+#RUN git clone  --branch v${CRISP_CONTROLLERS_VERSION} --depth 1 https://github.com/utiasDSL/crisp_controllers.git src/crisp_controllers
+
+#RUN source /opt/ros/$ROS_DISTRO/setup.bash \
+#    && source /home/ros/ros2_ws/install/setup.bash \
+    #&& sudo apt update \
+    #&& rosdep update \
+    #&& rosdep install -q --from-paths src --ignore-src -y \ 
+    #&& colcon build --symlink-install \
+    #    --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --packages-select crisp_controllers crisp_mujoco_sim crisp_controllers_robot_demos
 
 
-FROM kinova AS kinova-overlay
+#FROM iiwa AS iiwa-overlay
 
-ARG CRISP_CONTROLLERS_VERSION=1.1.0
+#ARG CRISP_CONTROLLERS_VERSION=1.1.0
 
-COPY . src/crisp_controllers_demos
+#COPY . src/crisp_controllers_demos
 
-RUN git clone  --branch v${CRISP_CONTROLLERS_VERSION} --depth 1 https://github.com/utiasDSL/crisp_controllers.git src/crisp_controllers
+#RUN git clone  --branch v${CRISP_CONTROLLERS_VERSION} --depth 1 https://github.com/utiasDSL/crisp_controllers.git src/crisp_controllers
 
-RUN source /opt/ros/$ROS_DISTRO/setup.bash \
-    && source /home/ros/ros2_ws/install/setup.bash \
-    && sudo apt update \
-    && rosdep update \
-    && rosdep install -q --from-paths src --ignore-src -y \ 
-    && colcon build --symlink-install \
-        --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --packages-select crisp_controllers crisp_mujoco_sim crisp_controllers_robot_demos
-
-
-FROM iiwa AS iiwa-overlay
-
-ARG CRISP_CONTROLLERS_VERSION=1.1.0
-
-COPY . src/crisp_controllers_demos
-
-RUN git clone  --branch v${CRISP_CONTROLLERS_VERSION} --depth 1 https://github.com/utiasDSL/crisp_controllers.git src/crisp_controllers
-
-RUN source /opt/ros/$ROS_DISTRO/setup.bash \
-    && source /home/ros/ros2_ws/install/setup.bash \
-    && sudo apt update \
-    && rosdep update \
-    && rosdep install -q --from-paths src --ignore-src -y \ 
-    && colcon build --symlink-install \
-        --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --packages-select crisp_controllers crisp_mujoco_sim crisp_controllers_robot_demos
-
+#RUN source /opt/ros/$ROS_DISTRO/setup.bash \
+#    && source /home/ros/ros2_ws/install/setup.bash \
+#    && sudo apt update \
+#    && rosdep update \
+#    && rosdep install -q --from-paths src --ignore-src -y \ 
+#    && colcon build --symlink-install \
+#        --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --packages-select crisp_controllers crisp_mujoco_sim crisp_controllers_robot_demos
