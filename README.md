@@ -28,9 +28,10 @@ sudo apt-get update
 vcs import src < src/franka_ros2/franka.repos --recursive --skip-existing
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
-
-# 5. Initial build
+rm -r src/crisp_controller_demos/crisp_mujoco_sim # delete unnecessary simulation env
+# 5. Initial 
 colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+# or colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select franka_broadcasters franka_description franka_ros2 libfranka
 ```
 ## Disable Unused Packages
 ```bash
