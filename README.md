@@ -90,6 +90,15 @@ ros2 topic pub /target_pose geometry_msgs/msg/PoseStamped "{header: {frame_id: '
 ```bash
 ros2 topic pub /target_wrench geometry_msgs/msg/WrenchStamped "{header: {stamp: {sec: 0, nanosec: 0}, frame_id: 'base'}, wrench: {force: {x: 0.0, y: 0.0, z: 0.0}, torque: {x: 0.0, y: 0.0, z: 0.0}}}"
 ```
+## (Additional): F/T Sensor
+```bash
+cd ~/my_crisp_ws/src
+git clone https://github.com/danielsanjosepro/franka_broadcasters.git
+cd ~/my_crisp_ws
+source /opt/ros/humble/setup.bash
+colcon build --symlink-install --packages-select franka_broadcasters crisp_controllers crisp_controllers_robot_demos
+source install/setup.zsh
+```
 
 ## Dynamic Parameter Tuning
 ```bash
