@@ -201,20 +201,20 @@ def generate_launch_description():
                 default_value="true",
                 description="",
             ),
-            Node(
-                package="joint_state_publisher",
-                executable="joint_state_publisher",
-                name="joint_state_publisher",
-                parameters=[
-                    {
-                        "source_list": [
-                            "franka/joint_states",
-                            "franka_gripper/joint_states",
-                        ],
-                        "rate": 1000,
-                    }
-                ],
-            ),
+            #Node(
+            #    package="joint_state_publisher",
+            #    executable="joint_state_publisher",
+            #    name="joint_state_publisher",
+            #    parameters=[
+            #        {
+            #            "source_list": [
+            #                "franka/joint_states",
+            #                "franka_gripper/joint_states",
+            #            ],
+            #            "rate": 1000,
+            #        }
+            #    ],
+            #),
             robot_description_dependent_nodes_spawner_opaque_function,
             Node(
                 package="controller_manager",
