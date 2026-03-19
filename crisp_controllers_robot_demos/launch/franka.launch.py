@@ -241,12 +241,12 @@ def generate_launch_description():
             #    arguments=["joint_impedance_controller", "--inactive"],
             #    output="screen",
             #),
-            #Node(
-            #    package="controller_manager",
-            #    executable="spawner",
-            #    arguments=["joint_trajectory_controller", "--inactive"],
-            #    output="screen",
-            #),
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                arguments=["joint_trajectory_controller", "--inactive"],
+                output="screen",
+            ),
             Node(
                 package="controller_manager",
                 executable="spawner",
